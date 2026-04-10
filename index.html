@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Digital Kami</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #c5a059; --bg: #fdfbf7; }
+        body { margin: 0; font-family: 'Montserrat', sans-serif; background: var(--bg); text-align: center; color: #333; overflow-x: hidden; }
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1000&q=80'); background-size: cover; color: white; }
+        h1 { font-family: 'Great Vibes', cursive; font-size: 4.5rem; margin: 10px 0; }
+        .section { padding: 60px 20px; max-width: 500px; margin: auto; }
+        .btn { background: var(--gold); color: white; padding: 12px 25px; text-decoration: none; border-radius: 30px; display: inline-block; margin: 10px; border: none; cursor: pointer; font-family: inherit; }
+        #countdown { display: flex; justify-content: center; gap: 15px; margin: 20px 0; }
+        .time-box { background: white; padding: 10px; border-radius: 8px; min-width: 70px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        input, select { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        #music-btn { position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; border-radius: 50%; background: var(--gold); border: none; color: white; font-size: 20px; cursor: pointer; z-index: 999; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+    </style>
+</head>
+<body>
+
+<audio id="bg-music" loop><source src="https://www.bensound.com/bensound-music/bensound-memories.mp3" type="audio/mpeg"></audio>
+<button id="music-btn" onclick="toggleMusic()">🎵</button>
+
+<div class="hero">
+    <p>WALIMATULURUS</p>
+    <h1>Adriana & Aiman</h1>
+    <p>SABTU | 14 . 06 . 2025</p>
+</div>
+
+<div class="section">
+    <h2>Menghitung Hari</h2>
+    <div id="countdown">
+        <div class="time-box"><div id="days" style="font-weight:bold; font-size:1.5rem;">00</div>Hari</div>
+        <div class="time-box"><div id="hours" style="font-weight:bold; font-size:1.5rem;">00</div>Jam</div>
+        <div class="time-box"><div id="mins" style="font-weight:bold; font-size:1.5rem;">00</div>Min</div>
+    </div>
+    
+    <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Majlis+Perkahwinan+Adriana+%26+Aiman&dates=20250614T040000Z/20250614T083000Z&details=Selamat+datang+ke+majlis+kami!&location=Dewan+Serbaguna+Bandar+Laguna+Merbok" target="_blank" class="btn">📅 Simpan Tarikh</a>
+</div>
+
+<div class="section" style="background: #f9f4e8; border-radius: 20px;">
+    <h3>RSVP Kehadiran</h3>
+    <input type="text" id="guestName" placeholder="Nama Anda">
+    <select id="attendance">
+        <option value="Hadir">Saya akan hadir</option>
+        <option value="Tidak Hadir">Maaf, tidak dapat hadir</option>
+    </select>
+    <input type="number" id="pax" placeholder="Bilangan Pax">
+    <button onclick="sendRSVP()" class="btn">Hantar via WhatsApp</button>
+</div>
+
+<script>
+    // Countdown Logic
+    const target = new Date("June 14, 2025 12:00:00").getTime();
+    setInterval(() => {
+        const now = new Date().getTime();
+        const diff = target - now;
+        document.getElementById("days").innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+        document.getElementById("hours").innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        document.getElementById("mins").innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    }, 1000);
+
+    // Music Logic
+    function toggleMusic() {
+        const m = document.getElementById("bg-music");
+        const b = document.getElementById("music-btn");
+        if (m.paused) { m.play(); b.innerText = "⏸️"; } else { m.pause(); b.innerText = "🎵"; }
+    }
+
+    // WhatsApp Logic
+    function sendRSVP() {
+        const name = document.getElementById("guestName").value;
+        const status = document.getElementById("attendance").value;
+        const pax = document.getElementById("pax").value;
+        const phone = "60123456789"; // GANTI NOMBOR ANDA DI SINI
+        const msg = `Salam, saya *${name}*.\nKehadiran: *${status}*\nJumlah Pax: *${pax}*`;
+        window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`);
+    }
+</script>
+</body>
+</html>
