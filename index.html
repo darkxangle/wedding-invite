@@ -141,6 +141,39 @@
 
 </body>
 </html>
+                if (status === "Hadir") {
+                    totalPax += pax;
+                }
+
+                if (wish && wish.trim() !== "") {
+                    wishesHTML += `
+                        <div class="wish-card">
+                            <p style="margin:0; font-size:0.9rem;">"${wish}"</p>
+                            <small style="color:var(--gold); font-weight:bold;">— ${name}</small>
+                        </div>
+                    `;
+                }
+            });
+
+            document.getElementById("total-hadir").innerText = totalPax;
+            document.getElementById("total-wishes").innerText = rows.length;
+            document.getElementById("wishes-display").innerHTML = wishesHTML || "<p style='color:#999;'>Belum ada ucapan.</p>";
+
+        } catch (e) {
+            document.getElementById("wishes-display").innerHTML = "<p>Sila pastikan Google Sheet disetkan ke 'Public'.</p>";
+        }
+    }
+
+    function openInvitation() {
+        document.getElementById("intro-overlay").style.transform = "translateY(-100%)";
+        document.getElementById("main-content").style.display = "block";
+        document.getElementById("bg-music").play();
+        loadGuestData();
+    }
+</script>
+
+</body>
+</html>
     }
 </script>
 
