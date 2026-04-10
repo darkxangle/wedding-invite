@@ -7,107 +7,140 @@
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
     <style>
         :root { --gold: #c5a059; --bg: #fdfbf7; }
-        body { margin: 0; font-family: 'Montserrat', sans-serif; background: var(--bg); text-align: center; color: #333; padding-bottom: 80px; }
+        body { margin: 0; font-family: 'Montserrat', sans-serif; background: var(--bg); text-align: center; color: #333; }
         
-        /* Hero Section */
-        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1000&q=80'); background-size: cover; color: white; }
-        h1 { font-family: 'Great Vibes', cursive; font-size: 4rem; margin: 10px 0; }
-        
-        /* Layout Sections */
-        .section { padding: 60px 20px; max-width: 500px; margin: auto; }
-        .btn { background: var(--gold); color: white; padding: 12px 25px; text-decoration: none; border-radius: 30px; display: inline-block; margin: 10px; border: none; cursor: pointer; }
-        
-        /* Countdown */
-        #countdown { display: flex; justify-content: center; gap: 10px; margin: 20px 0; }
-        .time-box { background: white; padding: 10px; border-radius: 8px; min-width: 65px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .time-num { font-weight: bold; font-size: 1.5rem; color: var(--gold); }
+        /* Intro Overlay */
+        #intro-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1000&q=80');
+            background-size: cover; background-position: center;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            color: white; z-index: 9999; transition: transform 0.8s ease-in-out;
+        }
+        .open-btn { background: var(--gold); color: white; padding: 15px 35px; border-radius: 30px; border: none; cursor: pointer; margin-top: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
 
-        /* Form Styling */
-        input, select { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; }
+        #main-content { display: none; padding-bottom: 80px; }
+        h1 { font-family: 'Great Vibes', cursive; font-size: 3.5rem; margin: 10px 0; color: var(--gold); }
+        .section { padding: 50px 20px; max-width: 500px; margin: auto; }
+        .btn { background: var(--gold); color: white; padding: 12px 25px; text-decoration: none; border-radius: 30px; display: inline-block; margin: 10px; border: none; font-size: 0.9rem; }
+        
+        /* Stats Dashboard */
+        .stat-container { display: flex; justify-content: space-around; margin-bottom: 20px; }
+        .stat-box { background: white; padding: 15px; border-radius: 10px; flex: 1; margin: 5px; border-top: 4px solid var(--gold); box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .stat-val { font-size: 1.5rem; font-weight: bold; color: var(--gold); display: block; }
+        .stat-label { font-size: 0.7rem; text-transform: uppercase; color: #777; }
 
-        /* Bottom Navigation Bar */
+        /* Wishes Styling */
+        .wish-card { background: white; padding: 15px; border-radius: 10px; margin-bottom: 10px; border-left: 4px solid var(--gold); text-align: left; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+
+        /* Bottom Nav */
         .bottom-nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 12px 0; box-shadow: 0 -2px 15px rgba(0,0,0,0.1); z-index: 1000; }
         .nav-item { text-decoration: none; color: #777; font-size: 0.75rem; display: flex; flex-direction: column; align-items: center; }
-        .nav-item.active { color: var(--gold); }
-
-        /* Music Button */
-        #music-btn { position: fixed; bottom: 85px; right: 20px; width: 45px; height: 45px; border-radius: 50%; background: var(--gold); border: none; color: white; font-size: 18px; cursor: pointer; z-index: 999; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
     </style>
 </head>
-<body id="home">
+<body>
 
-<audio id="bg-music" loop><source src="https://www.bensound.com/bensound-music/bensound-memories.mp3" type="audio/mpeg"></audio>
-<button id="music-btn" onclick="toggleMusic()">🎵</button>
-
-<div class="hero">
+<div id="intro-overlay">
     <p>WALIMATULURUS</p>
-    <h1>Zahidah & Aiman</h1>
-    <p>SABTU | 14 . 06 . 2026</p>
+    <h1 style="color:white;">Zahidah & Aiman</h1>
+    <button class="open-btn" onclick="openInvitation()">Buka Jemputan</button>
 </div>
 
-<div class="section" id="count-sec">
-    <h2>Menghitung Hari</h2>
-    <div id="countdown">
-        <div class="time-box"><div id="days" class="time-num">00</div>Hari</div>
-        <div class="time-box"><div id="hours" class="time-num">00</div>Jam</div>
-        <div class="time-box"><div id="mins" class="time-num">00</div>Min</div>
-        <div class="time-box"><div id="secs" class="time-num">00</div>Saat</div>
+<div id="main-content">
+    <audio id="bg-music" loop><source src="https://www.bensound.com/bensound-music/bensound-memories.mp3" type="audio/mpeg"></audio>
+
+    <div class="section" id="home">
+        <p>JEMPUTAN WALIMATULURUS</p>
+        <h1>Zahidah & Aiman</h1>
+        <p>Ahad | 31 Mei 2026</p>
+        <p style="font-size: 0.9rem;">462, Jalan Cermai, Taman Cermai,<br>06000 Jitra, Kedah</p>
+        <a href="https://www.google.com/maps/search/?api=1&query=462,+Jalan+Cermai,+Taman+Cermai,+06000+Jitra,+Kedah" class="btn">📍 Google Maps</a>
     </div>
-    <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Majlis+Perkahwinan+Zahidah+%26+Aiman&dates=20260614T040000Z/20260614T083000Z&location=Dewan+Serbaguna+Bandar+Laguna+Merbok" target="_blank" class="btn">📅 Simpan Tarikh</a>
-</div>
 
-<div class="section" id="rsvp-sec" style="background: #f9f4e8; border-radius: 20px;">
-    <h3>RSVP Kehadiran</h3>
-    <p>Sila isi borang di bawah:</p>
-    <input type="text" id="guestName" placeholder="Nama Anda">
-    <select id="attendance">
-        <option value="Hadir">Saya akan hadir</option>
-        <option value="Tidak Hadir">Maaf, tidak dapat hadir</option>
-    </select>
-    <input type="number" id="pax" placeholder="Bilangan Pax">
-    <button onclick="sendRSVP()" class="btn">Hantar via WhatsApp</button>
-</div>
+    <div class="section" style="background: #f9f4e8; border-radius: 20px;" id="rsvp-sec">
+        <h3>Statistik & Ucapan</h3>
+        
+        <div class="stat-container">
+            <div class="stat-box">
+                <span class="stat-val" id="total-hadir">0</span>
+                <span class="stat-label">Hadir (Pax)</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-val" id="total-wishes">0</span>
+                <span class="stat-label">Ucapan</span>
+            </div>
+        </div>
 
-<div class="section" id="lokasi-sec">
-    <h3>Lokasi Majlis</h3>
-    <p>Dewan Serbaguna Bandar Laguna Merbok,<br>Sungai Petani, Kedah</p>
-    <a href="https://ul.waze.com/ul?place=ChIJb7md9tMpSzARoHVsR42VgcU&ll=5.68317200%2C100.49219580&navigate=yes" class="btn" style="background:#333;">Buka Waze</a>
-</div>
+        <a href="PASTE_YOUR_GOOGLE_FORM_LINK_HERE" class="btn" style="width:80%;">Isi RSVP & Ucapan</a>
 
-<div class="bottom-nav">
-    <a href="#home" class="nav-item">🏠<span>Utama</span></a>
-    <a href="#count-sec" class="nav-item">⏳<span>Masa</span></a>
-    <a href="#rsvp-sec" class="nav-item">📩<span>RSVP</span></a>
-    <a href="#lokasi-sec" class="nav-item">📍<span>Lokasi</span></a>
+        <div id="wishes-display" style="margin-top: 20px; max-height: 300px; overflow-y: auto;">
+            <p style="color:#999;">Memuatkan ucapan...</p>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <a href="#home" class="nav-item">🏠<span>Utama</span></a>
+        <a href="#rsvp-sec" class="nav-item">📩<span>RSVP</span></a>
+        <a href="https://www.google.com/maps/search/?api=1&query=462,+Jalan+Cermai,+Taman+Cermai,+06000+Jitra,+Kedah" class="nav-item">📍<span>Lokasi</span></a>
+    </div>
 </div>
 
 <script>
-    // Countdown Logic (Set to June 2026)
-    const target = new Date("June 14, 2026 12:00:00").getTime();
-    setInterval(() => {
-        const now = new Date().getTime();
-        const diff = target - now;
-        document.getElementById("days").innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
-        document.getElementById("hours").innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        document.getElementById("mins").innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        document.getElementById("secs").innerText = Math.floor((diff % (1000 * 60)) / 1000);
-    }, 1000);
+    // YOUR SHEET ID IS NOW INTEGRATED
+    const sheetID = "17NOvWsyN0M0u-v0ZghC7cYzD1sd88WD-cncwnZ1NlSw";
+    const sheetURL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json`;
 
-    // Music Logic
-    function toggleMusic() {
-        const m = document.getElementById("bg-music");
-        const b = document.getElementById("music-btn");
-        if (m.paused) { m.play(); b.innerText = "⏸️"; } else { m.pause(); b.innerText = "🎵"; }
+    async function loadGuestData() {
+        try {
+            const response = await fetch(sheetURL);
+            const text = await response.text();
+            const json = JSON.parse(text.substr(47).slice(0, -2));
+            const rows = json.table.rows;
+
+            let totalPax = 0;
+            let wishesHTML = "";
+
+            rows.forEach(row => {
+                // Adjusting indexes based on standard Google Form Sheet (A=0, B=1, etc.)
+                // Usually: A=Timestamp, B=Nama, C=Kehadiran, D=Pax, E=Ucapan
+                const name = row.c[1] ? row.c[1].v : "Tetamu";
+                const status = row.c[2] ? row.c[2].v : "";
+                const pax = row.c[3] ? (parseInt(row.c[3].v) || 0) : 0;
+                const wish = row.c[4] ? row.c[4].v : "";
+
+                if (status === "Hadir") {
+                    totalPax += pax;
+                }
+
+                if (wish && wish.trim() !== "") {
+                    wishesHTML += `
+                        <div class="wish-card">
+                            <p style="margin:0; font-size:0.9rem;">"${wish}"</p>
+                            <small style="color:var(--gold); font-weight:bold;">— ${name}</small>
+                        </div>
+                    `;
+                }
+            });
+
+            document.getElementById("total-hadir").innerText = totalPax;
+            document.getElementById("total-wishes").innerText = rows.length;
+            document.getElementById("wishes-display").innerHTML = wishesHTML || "<p style='color:#999;'>Belum ada ucapan.</p>";
+
+        } catch (e) {
+            document.getElementById("wishes-display").innerHTML = "<p>Sila pastikan Google Sheet disetkan ke 'Public'.</p>";
+        }
     }
 
-    // WhatsApp RSVP Logic
-    function sendRSVP() {
-        const name = document.getElementById("guestName").value;
-        const status = document.getElementById("attendance").value;
-        const pax = document.getElementById("pax").value;
-        const phone = "601111403063"; // SAYA DAH MASUKKAN NOMBOR ANDA (Berdasarkan format umum Malaysia)
-        const msg = `Salam, saya *${name}*.\nKehadiran: *${status}*\nJumlah Pax: *${pax}*`;
-        window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`);
+    function openInvitation() {
+        document.getElementById("intro-overlay").style.transform = "translateY(-100%)";
+        document.getElementById("main-content").style.display = "block";
+        document.getElementById("bg-music").play();
+        loadGuestData();
+    }
+</script>
+
+</body>
+</html>
     }
 </script>
 
